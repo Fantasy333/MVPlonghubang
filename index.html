@@ -2,384 +2,393 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover"
+  />
   <title>龙虎榜</title>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Noto+Sans+SC:wght@400;500;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg0:#050507;
-      --bg1:#0a0a10;
-      --gold:#d6b15e;
-      --gold2:#f6e5a4;
-      --gold3:#b8842b;
-      --text:#efece3;
-      --line:#ffffff14;
-      --glow: 0 0 26px rgba(214,177,94,.22), 0 0 80px rgba(214,177,94,.12);
-      --shadow: 0 28px 90px rgba(0,0,0,.58);
-      --max: 1180px;
+      --bg:#070707;
+      --bg2:#111111;
+      --gold:#d4af37;
+      --gold-light:#f4df9b;
+      --gold-deep:#9c7418;
+      --text:#f5f1e8;
+      --muted:#c8b98f;
+      --line:rgba(212,175,55,.18);
+      --card-bg:rgba(255,255,255,.03);
+      --shadow:0 10px 30px rgba(0,0,0,.35);
+      --max-width:1100px;
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
+    *{
+      box-sizing:border-box;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    html,body{
       margin:0;
-      font-family:"Noto Sans SC", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "PingFang SC","Microsoft YaHei", sans-serif;
-      color:var(--text);
+      padding:0;
       background:
-        radial-gradient(1200px 700px at 12% 0%, rgba(214,177,94,.12), transparent 55%),
-        radial-gradient(900px 600px at 85% 10%, rgba(246,229,164,.07), transparent 58%),
-        radial-gradient(900px 700px at 50% 110%, rgba(214,177,94,.10), transparent 60%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
-      overflow-x:hidden;
+        radial-gradient(circle at top left, rgba(212,175,55,.10), transparent 30%),
+        radial-gradient(circle at top right, rgba(212,175,55,.06), transparent 25%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      color:var(--text);
+      font-family:
+        -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC",
+        "Hiragino Sans GB","Microsoft YaHei",sans-serif;
+      min-height:100vh;
     }
 
-    .dust{
-      position:fixed; inset:0;
-      pointer-events:none;
-      background:
-        radial-gradient(1px 1px at 10% 15%, rgba(246,229,164,.80), transparent 55%),
-        radial-gradient(1px 1px at 35% 65%, rgba(214,177,94,.60), transparent 55%),
-        radial-gradient(1px 1px at 60% 25%, rgba(246,229,164,.55), transparent 55%),
-        radial-gradient(1px 1px at 88% 70%, rgba(214,177,94,.70), transparent 55%),
-        radial-gradient(1px 1px at 52% 52%, rgba(246,229,164,.45), transparent 55%);
-      opacity:.55;
-      mix-blend-mode:screen;
-      filter: blur(.25px);
-      animation: drift 16s linear infinite;
+    img{
+      max-width:100%;
+      display:block;
+      border:0;
     }
-    @keyframes drift{
-      from{transform:translate3d(0,0,0)}
-      to{transform:translate3d(-36px,24px,0)}
+
+    .page{
+      width:100%;
+      max-width:var(--max-width);
+      margin:0 auto;
+      padding:14px 14px 32px;
     }
 
     .topbar{
       position:sticky;
       top:0;
-      z-index:60;
-      backdrop-filter: blur(14px);
-      background: linear-gradient(180deg, rgba(5,5,7,.9), rgba(5,5,7,.62));
+      z-index:100;
+      background:rgba(7,7,7,.96);
       border-bottom:1px solid var(--line);
+      backdrop-filter:saturate(120%) blur(6px);
     }
 
     .topbar-inner{
-      max-width:var(--max);
+      width:100%;
+      max-width:var(--max-width);
       margin:0 auto;
-      padding:14px 16px;
+      padding:12px 14px 14px;
       display:flex;
+      flex-direction:column;
       align-items:center;
-      justify-content:space-between;
-      gap:14px;
-      flex-wrap:wrap;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
+      justify-content:center;
       gap:12px;
     }
 
-    .brand img{
-      width:48px;
-      height:48px;
-      object-fit:contain;
-      border-radius:12px;
-      border:1px solid rgba(246,229,164,.16);
-      background: rgba(255,255,255,.02);
-      filter: drop-shadow(0 18px 30px rgba(214,177,94,.25));
+    .brand{
+      width:100%;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
     }
 
     .brand-name{
-      font-family:"Cinzel", serif;
-      font-size:16px;
-      letter-spacing:.12em;
-      background: linear-gradient(180deg, var(--gold2), var(--gold), var(--gold3));
+      font-size:18px;
+      font-weight:800;
+      letter-spacing:.10em;
+      line-height:1;
+      background:linear-gradient(180deg, var(--gold-light), var(--gold), var(--gold-deep));
       -webkit-background-clip:text;
       background-clip:text;
       color:transparent;
+      white-space:nowrap;
     }
 
     .nav{
+      width:100%;
       display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      flex-wrap:nowrap;
     }
 
-    .pill{
-      cursor:pointer;
-      user-select:none;
-      padding:10px 14px;
-      border-radius:999px;
-      font-size:13px;
-      letter-spacing:.08em;
-      border:1px solid rgba(246,229,164,.16);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      transition:.25s ease;
-      position:relative;
-      overflow:hidden;
+    .nav-btn{
+      flex:1;
+      min-width:0;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
       color:var(--text);
+      border-radius:999px;
+      padding:10px 0;
+      font-size:14px;
+      font-weight:600;
+      cursor:pointer;
+      transition:.2s ease;
+      white-space:nowrap;
+      text-align:center;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    .pill::before{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background: linear-gradient(135deg, rgba(214,177,94,.25), transparent 45%, rgba(246,229,164,.18));
-      opacity:0;
-      transition:.25s ease;
-    }
-
-    .pill:hover{
-      transform:translateY(-1px);
-      box-shadow:0 14px 34px rgba(0,0,0,.35);
-    }
-
-    .pill:hover::before{opacity:1}
-
-    .pill.active{
-      border-color: rgba(246,229,164,.38);
-      background: linear-gradient(135deg, rgba(214,177,94,.22), rgba(255,255,255,.03));
-      box-shadow: var(--glow);
-    }
-
-    .wrap{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:22px 16px 60px;
+    .nav-btn.active{
+      color:#111;
+      background:linear-gradient(180deg, var(--gold-light), var(--gold));
+      border-color:rgba(244,223,155,.5);
+      box-shadow:0 4px 14px rgba(212,175,55,.28);
     }
 
     .view{
       display:none;
-      animation: fadeUp .35s ease both;
+      margin-top:18px;
     }
 
     .view.active{
       display:block;
     }
 
-    @keyframes fadeUp{
-      from{opacity:0; transform: translateY(10px)}
-      to{opacity:1; transform: translateY(0)}
+    .poster-shell,
+    .points-shell{
+      border:1px solid var(--line);
+      border-radius:22px;
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015));
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
 
-    .poster-box{
-      border-radius:26px;
-      overflow:hidden;
-      border:1px solid rgba(246,229,164,.14);
-      box-shadow: var(--shadow);
-      background:
-        radial-gradient(1200px 700px at 20% 0%, rgba(214,177,94,.14), transparent 55%),
-        radial-gradient(900px 600px at 85% 15%, rgba(246,229,164,.07), transparent 58%),
-        linear-gradient(180deg, #050507, #0a0a12);
+    .poster-shell{
       padding:18px;
     }
 
     .poster-frame{
       width:100%;
+      min-height:320px;
       display:flex;
-      justify-content:center;
       align-items:center;
-      border-radius:22px;
+      justify-content:center;
+      background:
+        radial-gradient(circle at top, rgba(212,175,55,.08), transparent 30%),
+        rgba(255,255,255,.02);
+      border:1px solid rgba(212,175,55,.10);
+      border-radius:16px;
       overflow:hidden;
-      border:1px solid rgba(246,229,164,.14);
-      background: rgba(255,255,255,.03);
-      min-height: 540px;
     }
 
     .poster-frame img{
-      display:block;
       width:100%;
-      max-width:760px;
       height:auto;
       object-fit:contain;
-      border-radius:18px;
-      box-shadow: 0 24px 80px rgba(0,0,0,.45);
+      border-radius:12px;
     }
 
-    .points-board{
-      border-radius:26px;
-      overflow:hidden;
-      border:1px solid rgba(246,229,164,.14);
-      box-shadow: var(--shadow);
-      background:
-        radial-gradient(1100px 700px at 20% 20%, rgba(214,177,94,.14), transparent 58%),
-        radial-gradient(900px 600px at 85% 40%, rgba(246,229,164,.06), transparent 60%),
-        linear-gradient(180deg, #050507, #0a0a12);
-      padding:24px 18px 24px;
+    .poster-fallback{
+      padding:40px 20px;
+      text-align:center;
+      color:var(--muted);
+      font-size:16px;
+      display:none;
+    }
+
+    .points-shell{
+      padding:18px;
     }
 
     .points-title{
+      margin:4px 0 18px;
       text-align:center;
-      margin:0 0 18px;
-      font-size:46px;
+      font-size:34px;
+      line-height:1.1;
       font-weight:900;
-      letter-spacing:.14em;
-      background: linear-gradient(180deg, var(--gold2), var(--gold), #a06a16);
+      letter-spacing:.10em;
+      background:linear-gradient(180deg, var(--gold-light), var(--gold), var(--gold-deep));
       -webkit-background-clip:text;
       background-clip:text;
       color:transparent;
-      text-shadow: 0 20px 80px rgba(214,177,94,.14);
     }
 
     .points-grid{
       display:grid;
-      grid-template-columns:1fr 1fr;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
       gap:14px;
     }
 
-    @media (max-width: 840px){
-      .points-grid{grid-template-columns:1fr}
-      .points-title{font-size:34px}
-      .poster-frame{min-height: 320px;}
-    }
-
-    .p-card{
-      border-radius:22px;
-      border:1px solid rgba(246,229,164,.14);
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      box-shadow: 0 22px 70px rgba(0,0,0,.52);
-      overflow:hidden;
-      position:relative;
-      padding:16px 18px;
+    .point-card{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:var(--card-bg);
+      padding:16px;
       display:flex;
       align-items:center;
       justify-content:space-between;
-      gap:16px;
-    }
-
-    .p-card::after{
-      content:"";
-      position:absolute;
-      inset:-2px;
-      background:
-        radial-gradient(420px 180px at 25% 45%, rgba(246,229,164,.10), transparent 70%),
-        radial-gradient(520px 220px at 90% 70%, rgba(214,177,94,.12), transparent 72%);
-      pointer-events:none;
-    }
-
-    .p-left, .p-right{
-      position:relative;
-      z-index:2;
-    }
-
-    .p-left{
+      gap:14px;
+      box-shadow:var(--shadow);
       min-width:0;
-      flex:1 1 auto;
     }
 
-    .pill-group{
+    .point-left{
+      min-width:0;
+      flex:1;
+    }
+
+    .group-pill{
       display:inline-block;
-      padding:8px 14px;
+      padding:6px 12px;
       border-radius:999px;
-      border:1px solid rgba(246,229,164,.16);
-      background: rgba(0,0,0,.28);
-      letter-spacing:.14em;
-      font-weight:700;
-      color: rgba(246,229,164,.92);
+      border:1px solid var(--line);
+      color:var(--gold-light);
+      background:rgba(212,175,55,.08);
       font-size:12px;
+      font-weight:700;
+      letter-spacing:.06em;
       margin-bottom:10px;
     }
 
-    .p-name{
+    .person-name{
       margin:0;
-      font-size:30px;
+      font-size:28px;
       font-weight:900;
-      letter-spacing:.14em;
-      line-height:1.1;
+      line-height:1.15;
       color:var(--text);
       word-break:break-all;
     }
 
-    .p-right{
+    .point-right{
       text-align:right;
-      flex:0 0 auto;
+      flex-shrink:0;
     }
 
-    .p-rank{
-      font-family:"Cinzel", serif;
+    .rank{
+      font-size:30px;
       font-weight:900;
-      font-size:34px;
-      letter-spacing:.06em;
-      background: linear-gradient(180deg, var(--gold2), var(--gold), #a06a16);
+      line-height:1;
+      letter-spacing:.04em;
+      background:linear-gradient(180deg, var(--gold-light), var(--gold), var(--gold-deep));
       -webkit-background-clip:text;
       background-clip:text;
       color:transparent;
-      text-shadow: 0 16px 60px rgba(214,177,94,.14);
+    }
+
+    .score-label{
+      margin-top:8px;
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.06em;
+    }
+
+    .score-value{
+      margin-top:4px;
+      font-size:20px;
+      font-weight:800;
+      color:var(--gold-light);
       line-height:1;
     }
 
-    .p-metric{
-      margin-top:8px;
-      color: rgba(233,230,221,.78);
-      letter-spacing:.10em;
-      font-size:12px;
-    }
+    @media (max-width: 768px){
+      .topbar-inner{
+        padding:12px 10px 14px;
+        gap:10px;
+      }
 
-    .p-metric b{
-      display:block;
-      margin-top:6px;
-      font-family:"Cinzel", serif;
-      font-size:20px;
-      letter-spacing:.08em;
-      color: rgba(246,229,164,.95);
-      font-weight:800;
+      .brand-name{
+        font-size:16px;
+      }
+
+      .nav{
+        gap:6px;
+      }
+
+      .nav-btn{
+        font-size:12px;
+        padding:10px 0;
+      }
+
+      .poster-shell,
+      .points-shell{
+        border-radius:18px;
+      }
+
+      .poster-shell{
+        padding:12px;
+      }
+
+      .poster-frame{
+        min-height:220px;
+        border-radius:14px;
+      }
+
+      .points-title{
+        font-size:26px;
+        margin-bottom:14px;
+      }
+
+      .points-grid{
+        grid-template-columns:1fr;
+      }
+
+      .point-card{
+        padding:14px;
+      }
+
+      .person-name{
+        font-size:24px;
+      }
+
+      .rank{
+        font-size:26px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="dust"></div>
-
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
-        <img src="./logo.png" alt="logo" onerror="this.style.display='none'">
         <div class="brand-name">MVP FAMILY</div>
       </div>
 
       <nav class="nav" id="nav">
-        <div class="pill active" data-target="sales">销冠龙虎榜</div>
-        <div class="pill" data-target="single">单王龙虎榜</div>
-        <div class="pill" data-target="recruit">招募龙虎榜</div>
-        <div class="pill" data-target="points">积分龙虎榜</div>
+        <button class="nav-btn active" data-target="sales" type="button">销冠龙虎榜</button>
+        <button class="nav-btn" data-target="single" type="button">单王龙虎榜</button>
+        <button class="nav-btn" data-target="recruit" type="button">招募龙虎榜</button>
+        <button class="nav-btn" data-target="points" type="button">积分龙虎榜</button>
       </nav>
     </div>
   </header>
 
-  <main class="wrap">
-    <!-- 销冠龙虎榜 -->
+  <main class="page">
     <section class="view active" id="view-sales">
-      <div class="poster-box">
+      <div class="poster-shell">
         <div class="poster-frame">
-          <img src="./posters/sales.JPEG" alt="销冠龙虎榜海报">
+          <img
+            src="./posters/sales.JPEG"
+            alt="销冠龙虎榜海报"
+            onerror="this.style.display='none'; this.parentNode.querySelector('.poster-fallback').style.display='block';"
+          >
+          <div class="poster-fallback">销冠龙虎榜海报未找到</div>
         </div>
       </div>
     </section>
 
-    <!-- 单王龙虎榜 -->
     <section class="view" id="view-single">
-      <div class="poster-box">
+      <div class="poster-shell">
         <div class="poster-frame">
-          <img src="./posters/single.JPEG" alt="单王龙虎榜海报">
+          <img
+            src="./posters/single.JPEG"
+            alt="单王龙虎榜海报"
+            onerror="this.style.display='none'; this.parentNode.querySelector('.poster-fallback').style.display='block';"
+          >
+          <div class="poster-fallback">单王龙虎榜海报未找到</div>
         </div>
       </div>
     </section>
 
-    <!-- 招募龙虎榜 -->
     <section class="view" id="view-recruit">
-      <div class="poster-box">
+      <div class="poster-shell">
         <div class="poster-frame">
-          <img src="./posters/recruit.jpg" alt="招募龙虎榜海报">
+          <img
+            src="./posters/recruit.jpg"
+            alt="招募龙虎榜海报"
+            onerror="this.style.display='none'; this.parentNode.querySelector('.poster-fallback').style.display='block';"
+          >
+          <div class="poster-fallback">招募龙虎榜海报未找到</div>
         </div>
       </div>
     </section>
 
-    <!-- 积分龙虎榜 -->
     <section class="view" id="view-points">
-      <div class="points-board">
+      <div class="points-shell">
         <h2 class="points-title">积分排行榜</h2>
         <div class="points-grid" id="pointsGrid"></div>
       </div>
@@ -387,67 +396,73 @@
   </main>
 
   <script>
-    const DATA = {
-      points: {
-        metricLabel: "积分",
-        metricSuffix: "分",
-        cards: [
-          { rank:"01", group:"MVP总区",    name:"梁 莉", metric:965 },
-          { rank:"02", group:"SUSU组",    name:"苏 瑜", metric:725 },
-          { rank:"03", group:"LILY组",   name:"宋文菁", metric:420 },
-          { rank:"04", group:"GAGA组", name:"赵 聪", metric:185 },
-          { rank:"05", group:"KYRA组",     name:"徐恺彤", metric:170 },
-          { rank:"06", group:"F组",       name:"林卓怡", metric:155 }
-        ]
-      }
-    };
+    const POINTS_DATA = [
+      { rank:"01", group:"MVP总区", name:"梁 莉", metric:965 },
+      { rank:"02", group:"SUSU组", name:"苏 瑜", metric:725 },
+      { rank:"03", group:"LILY组", name:"宋文菁", metric:420 },
+      { rank:"04", group:"GAGA组", name:"赵 聪", metric:185 },
+      { rank:"05", group:"KYRA组", name:"徐恺彤", metric:170 },
+      { rank:"06", group:"F组", name:"林卓怡", metric:155 }
+    ];
 
-    const fmt = (v) => Number.isInteger(v) ? String(v) : (Math.round(v * 10) / 10).toFixed(1);
-    const safe = (s) => (s ?? "").toString().replace(/[<>&"]/g, c => ({
-      "<":"&lt;",
-      ">":"&gt;",
-      "&":"&amp;",
-      '"':"&quot;"
-    }[c]));
-
-    const pointsGrid = document.getElementById("pointsGrid");
-    pointsGrid.innerHTML = DATA.points.cards.map(c => `
-      <div class="p-card">
-        <div class="p-left">
-          <div class="pill-group">${safe(c.group)}</div>
-          <p class="p-name">${safe(c.name)}</p>
-        </div>
-        <div class="p-right">
-          <div class="p-rank">${safe(c.rank)}</div>
-          <div class="p-metric">
-            ${safe(DATA.points.metricLabel)}
-            <b>${fmt(c.metric)}${safe(DATA.points.metricSuffix)}</b>
-          </div>
-        </div>
-      </div>
-    `).join("");
-
-    const nav = document.getElementById("nav");
-    const pills = Array.from(nav.querySelectorAll(".pill"));
-    const views = {
-      sales: document.getElementById("view-sales"),
-      single: document.getElementById("view-single"),
-      recruit: document.getElementById("view-recruit"),
-      points: document.getElementById("view-points")
-    };
-
-    function setActive(key){
-      pills.forEach(p => p.classList.toggle("active", p.dataset.target === key));
-      Object.entries(views).forEach(([k, el]) => {
-        el.classList.toggle("active", k === key);
+    function escapeHtml(str) {
+      return String(str).replace(/[&<>"']/g, function (m) {
+        return {
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          '"': '&quot;',
+          "'": '&#39;'
+        }[m];
       });
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    nav.addEventListener("click", (e) => {
-      const pill = e.target.closest(".pill");
-      if(!pill) return;
-      setActive(pill.dataset.target);
+    function renderPoints() {
+      const container = document.getElementById('pointsGrid');
+      container.innerHTML = POINTS_DATA.map(function(item) {
+        return `
+          <div class="point-card">
+            <div class="point-left">
+              <div class="group-pill">${escapeHtml(item.group)}</div>
+              <p class="person-name">${escapeHtml(item.name)}</p>
+            </div>
+            <div class="point-right">
+              <div class="rank">${escapeHtml(item.rank)}</div>
+              <div class="score-label">积分</div>
+              <div class="score-value">${escapeHtml(item.metric)}分</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    renderPoints();
+
+    const nav = document.getElementById('nav');
+    const buttons = nav.querySelectorAll('.nav-btn');
+    const views = {
+      sales: document.getElementById('view-sales'),
+      single: document.getElementById('view-single'),
+      recruit: document.getElementById('view-recruit'),
+      points: document.getElementById('view-points')
+    };
+
+    function setActive(target) {
+      buttons.forEach(function(btn) {
+        btn.classList.toggle('active', btn.dataset.target === target);
+      });
+
+      Object.keys(views).forEach(function(key) {
+        views[key].classList.toggle('active', key === target);
+      });
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    nav.addEventListener('click', function(e) {
+      const btn = e.target.closest('.nav-btn');
+      if (!btn) return;
+      setActive(btn.dataset.target);
     });
   </script>
 </body>
